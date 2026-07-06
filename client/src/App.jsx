@@ -8,6 +8,8 @@ import Dashboard from './pages/Dashboard';
 import ContentLibrary from './pages/ContentLibrary';
 import ContentView from './pages/ContentView';
 import SessionPlayer from './pages/SessionPlayer';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentCancel from './pages/PaymentCancel';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -33,6 +35,8 @@ export default function App() {
           <Route path="/content" element={<ProtectedRoute><ContentLibrary /></ProtectedRoute>} />
           <Route path="/content/:id" element={<ProtectedRoute><ContentView /></ProtectedRoute>} />
           <Route path="/play/:id" element={<ProtectedRoute><SessionPlayer /></ProtectedRoute>} />
+          <Route path="/payment/success" element={<PaymentSuccess />} />
+          <Route path="/payment/cancel" element={<PaymentCancel />} />
         </Routes>
       </main>
       <Footer />

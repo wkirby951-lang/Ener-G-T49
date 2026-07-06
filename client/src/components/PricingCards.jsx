@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { openStripeCheckout } from '../stripe';
 
 const PRICING = [
-  { id: 'monthly', name: 'Monthly', price: '$9.99', period: '/month', desc: 'Full access, cancel anytime' },
-  { id: 'quarterly', name: '3 Months', price: '$23', period: '', desc: '$7.67/mo — save 23%', popular: false },
-  { id: 'semi-annual', name: '6 Months', price: '$42', period: '', desc: '$7/mo — save 30%', popular: true },
-  { id: 'annual', name: '1 Year', price: '$69.99', period: '', desc: '$5.83/mo — save 42%', popular: false },
-  { id: 'annual-renewal', name: 'Annual Renewal', price: '$50', period: '/year', desc: 'Renew at a discounted rate' },
-  { id: 'lifetime', name: 'Lifetime', price: '$99.99', period: '', desc: 'One-time payment, forever access', badge: 'Best Value' },
+  { id: 'monthly', name: 'Monthly', price: '$9.99', period: '/month', desc: 'Full access, cancel anytime', stripeId: 'monthly' },
+  { id: 'quarterly', name: '3 Months', price: '$23', period: '', desc: '$7.67/mo — save 23%', stripeId: 'quarterly' },
+  { id: 'semi-annual', name: '6 Months', price: '$42', period: '', desc: '$7/mo — save 30%', popular: true, stripeId: 'semi-annual' },
+  { id: 'annual', name: '1 Year', price: '$69.99', period: '', desc: '$5.83/mo — save 42%', stripeId: 'annual' },
+  { id: 'annual-renewal', name: 'Annual Renewal', price: '$50', period: '/year', desc: 'Renew at a discounted rate', stripeId: 'annual-renewal' },
+  { id: 'lifetime', name: 'Lifetime', price: '$99.99', period: '', desc: 'One-time payment, forever access', badge: 'Best Value', stripeId: 'lifetime' },
 ];
 
 export default function PricingCards() {
@@ -42,27 +43,36 @@ export default function PricingCards() {
                 <span className="text-3xl font-bold text-gray-900">{plan.price}</span>
                 <span className="text-gray-500 text-sm">{plan.period}</span>
               </div>
-              <p className="text-sm text-gray-600 mb-6 flex-1">{plan.desc}</p>
+              <p className="text-sm text-gray-600 mb-4 flex-1">{plan.desc}</p>
               {plan.id === 'lifetime' && (
                 <p className="text-xs text-amber-600 mb-4 font-medium">✓ One-time payment, lifetime access</p>
               )}
-              <Link
-                to="/signup"
-                className={`text-center py-2.5 rounded-xl text-sm font-semibold transition-colors ${
-                  plan.popular || plan.id === 'lifetime'
-                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
-                }`}
-              >
-                Start Free Trial
-              </Link>
+
+              <div className="space-y-2 mt-auto">
+                <button
+                  onClick={() => openStripeCheckout(plan.stripeId)}
+                  className={`w-full text-center py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                    plan.popular || plan.id === 'lifetime'
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                      : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
+                  }`}
+                >
+                  Buy Now — {plan.price}{plan.period}
+                </button>
+                <Link
+                  to="/signup"
+                  className="block w-full text-center py-2 rounded-lg text-xs text-blue-600 hover:text-blue-800 font-medium transition-colors border border-blue-200 hover:border-blue-400"
+                >
+                  Or start your free 30-day trial →
+                </Link>
+              </div>
             </div>
           ))}
         </div>
 
         <div className="text-center mt-10">
           <p className="text-sm text-gray-500">
-            All plans include full access to all 7 modalities. 
+            All plans include full access to all 7 modalities.
             <Link to="/signup" className="text-blue-600 hover:underline ml-1">Try 30 days free →</Link>
           </p>
           <p className="text-xs text-gray-400 mt-2">Individual guided meditations &amp; literature: $5 each (a la carte)</p>

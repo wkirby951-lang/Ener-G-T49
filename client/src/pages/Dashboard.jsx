@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api';
+import { openStripeCheckout } from '../stripe';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -91,9 +92,29 @@ export default function Dashboard() {
               <span className="text-gray-600">Days remaining</span>
               <span className="font-medium">{data?.user?.daysLeft || 0} days</span>
             </div>
-            <Link to="/dashboard?tab=subscription" className="block text-center mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl text-sm font-medium transition-colors">
-              Manage Subscription
-            </Link>
+            <hr className="border-gray-100" />
+            <p className="text-xs text-gray-500 font-medium">Select a plan to upgrade:</p>
+            <div className="grid grid-cols-2 gap-2">
+              <button onClick={() => openStripeCheckout('monthly')} className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl text-xs font-medium transition-colors">
+                $9.99/mo
+              </button>
+              <button onClick={() => openStripeCheckout('quarterly')} className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl text-xs font-medium transition-colors">
+                $23 / 3mo
+              </button>
+              <button onClick={() => openStripeCheckout('semi-annual')} className="bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl text-xs font-medium transition-colors">
+                $42 / 6mo
+              </button>
+              <button onClick={() => openStripeCheckout('annual')} className="bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl text-xs font-medium transition-colors">
+                $69.99 / yr
+              </button>
+              <button onClick={() => openStripeCheckout('annual-renewal')} className="bg-gray-800 hover:bg-gray-900 text-white py-2 rounded-xl text-xs font-medium transition-colors">
+                $50 / yr renewal
+              </button>
+              <button onClick={() => openStripeCheckout('lifetime')} className="bg-amber-600 hover:bg-amber-700 text-white py-2 rounded-xl text-xs font-medium transition-colors">
+                $99.99 Lifetime
+              </button>
+            </div>
+            <p className="text-xs text-gray-400 text-center mt-1">Opens Stripe checkout in a new tab</p>
           </div>
         </div>
       </div>

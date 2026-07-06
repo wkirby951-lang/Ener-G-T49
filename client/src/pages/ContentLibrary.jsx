@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { api } from '../api';
+import { openStripeCheckout } from '../stripe';
 
 const MODALITY_ICONS = {
   emdr: '🫣', 'eft-tapping': '👆', 'faster-eft': '⚡',
@@ -78,29 +79,36 @@ export default function ContentLibrary() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {mod.items.map((item) => (
-              <Link
+              <div
                 key={item.id}
-                to={item.type === 'session' ? `/play/${item.id}` : `/content/${item.id}`}
-                className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-200 hover:shadow-md transition-all"
+                className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-200 hover:shadow-md transition-all group"
               >
-                <div className="flex items-start justify-between mb-2">
-                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                    item.type === 'session' ? 'bg-green-100 text-green-700' :
-                    item.type === 'introduction' ? 'bg-blue-100 text-blue-700' :
-                    item.type === 'cheatsheet' ? 'bg-purple-100 text-purple-700' :
-                    'bg-gray-100 text-gray-600'
-                  }`}>
-                    {item.type === 'session' ? '🎧 Session' : item.type === 'introduction' ? '📖 Guide' : '📋 Reference'}
-                  </span>
-                  {item.ageSegment && (
-                    <span className="text-xs text-gray-400">{item.ageSegment}</span>
-                  )}
-                </div>
-                <h3 className="font-semibold text-gray-900 text-sm mb-1 line-clamp-2">{item.title}</h3>
-                {item.duration && <p className="text-xs text-gray-500 mb-1">{item.duration}</p>}
-                {item.focus && <p className="text-xs text-gray-500 mb-1">Focus: {item.focus}</p>}
-                <p className="text-xs text-gray-400 line-clamp-2 mt-2">{item.abstract}</p>
-              </Link>
+                <Link to={item.type === 'session' ? `/play/${item.id}` : `/content/${item.id}`}>
+                  <div className="flex items-start justify-between mb-2">
+                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                      item.type === 'session' ? 'bg-green-100 text-green-700' :
+                      item.type === 'introduction' ? 'bg-blue-100 text-blue-700' :
+                      item.type === 'cheatsheet' ? 'bg-purple-100 text-purple-700' :
+                      'bg-gray-100 text-gray-600'
+                    }`}>
+                      {item.type === 'session' ? '🎧 Session' : item.type === 'introduction' ? '📖 Guide' : '📋 Reference'}
+                    </span>
+                    {item.ageSegment && (
+                      <span className="text-xs text-gray-400">{item.ageSegment}</span>
+                    )}
+                  </div>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1 line-clamp-2">{item.title}</h3>
+                  {item.duration && <p className="text-xs text-gray-500 mb-1">{item.duration}</p>}
+                  {item.focus && <p className="text-xs text-gray-500 mb-1">Focus: {item.focus}</p>}
+                  <p className="text-xs text-gray-400 line-clamp-2 mt-2">{item.abstract}</p>
+                </Link>
+                <button
+                  onClick={(e) => { e.stopPropagation(); openStripeCheckout('a-la-carte'); }}
+                  className="mt-3 w-full text-center py-1.5 rounded-lg text-xs font-medium bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200 transition-colors"
+                >
+                  $5 Download
+                </button>
+              </div>
             ))}
           </div>
         </div>

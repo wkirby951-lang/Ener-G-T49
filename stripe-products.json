@@ -1,0 +1,67 @@
+{
+  "products": [
+    {
+      "name": "Ener-G-T-49 Monthly Subscription",
+      "description": "Monthly subscription to Ener-G-T-49 wellness app - full access to all 7 modalities",
+      "amount_cents": 999,
+      "amount_display": "$9.99/month",
+      "product_id": "prod_UpiykQexFPXmOz",
+      "price_id": "price_1Tq3WTRdgXaP7ChkDHhbrCY0",
+      "payment_link": "https://buy.stripe.com/8x24gBgFydpd8B4dxh4ow00"
+    },
+    {
+      "name": "Ener-G-T-49 3-Month Subscription",
+      "description": "3-month subscription to Ener-G-T-49 wellness app - save 23% vs monthly",
+      "amount_cents": 2300,
+      "amount_display": "$23.00 / 3 months ($7.67/mo)",
+      "product_id": "prod_UpiySQ1NeyTw1c",
+      "price_id": "price_1Tq3WURdgXaP7ChkTHfvQ6Q2",
+      "payment_link": "https://buy.stripe.com/fZu4gB60Ufxl2cG3WH4ow01"
+    },
+    {
+      "name": "Ener-G-T-49 6-Month Subscription",
+      "description": "6-month subscription to Ener-G-T-49 wellness app - save 30% vs monthly",
+      "amount_cents": 4200,
+      "amount_display": "$42.00 / 6 months ($7.00/mo)",
+      "product_id": "prod_UpiyohBKSBc2xc",
+      "price_id": "price_1Tq3WZRdgXaP7ChkLJtbjGdI",
+      "payment_link": "https://buy.stripe.com/6oUdRb1KE1GvaJcal54ow02"
+    },
+    {
+      "name": "Ener-G-T-49 Annual Subscription",
+      "description": "1-year subscription to Ener-G-T-49 wellness app - save 42% vs monthly",
+      "amount_cents": 6999,
+      "amount_display": "$69.99 / year ($5.83/mo)",
+      "product_id": "prod_UpiyXApXvkuJQO",
+      "price_id": "price_1Tq3WaRdgXaP7ChkpyCVtdUs",
+      "payment_link": "https://buy.stripe.com/9B6fZj9d6dpd4kO64P4ow03"
+    },
+    {
+      "name": "Ener-G-T-49 Lifetime Access",
+      "description": "One-time payment for lifetime access to Ener-G-T-49 wellness app - all future updates included",
+      "amount_cents": 9999,
+      "amount_display": "$99.99 one-time",
+      "product_id": "prod_UpiyMvP7pMW986",
+      "price_id": "price_1Tq3WVRdgXaP7ChkSgbT9PMR",
+      "payment_link": "https://buy.stripe.com/bJecN72OIcl9eZs1Oz4ow04"
+    },
+    {
+      "name": "Ener-G-T-49 Annual Renewal",
+      "description": "Annual renewal subscription to Ener-G-T-49 wellness app",
+      "amount_cents": 5000,
+      "amount_display": "$50.00 / year",
+      "product_id": "prod_UpiygzF3roHTjW",
+      "price_id": "price_1Tq3WWRdgXaP7ChkOtXtJymX",
+      "payment_link": "https://buy.stripe.com/4gM3cxbleethg3wal54ow05"
+    },
+    {
+      "name": "Ener-G-T-49 Guided Session or Literature Download",
+      "description": "Individual guided meditation session or literature download (a la carte)",
+      "amount_cents": 500,
+      "amount_display": "$5.00",
+      "product_id": "prod_UpiyXjIrNB9WUl",
+      "price_id": "price_1Tq3WXRdgXaP7Chk7BTNT2rz",
+      "payment_link": "https://buy.stripe.com/6oU8wRahabh57x078T4ow06"
+    }
+  ]
+}
