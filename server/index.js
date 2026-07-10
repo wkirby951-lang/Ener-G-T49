@@ -61,6 +61,19 @@ app.get('/api/config', (req, res) => {
 const clientBuildPath = path.join(__dirname, '..', 'client', 'dist');
 app.use(express.static(clientBuildPath));
 
+// ─── Serve Audio Files ──────────────────────────────────────
+const audioPath = path.join(__dirname, '..', 'audio');
+app.use('/audio', express.static(audioPath, {
+  acceptRanges: true,
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.wav')) {
+      res.setHeader('Content-Type', 'audio/wav');
+    } else if (filePath.endsWith('.mp3')) {
+      res.setHeader('Content-Type', 'audio/mpeg');
+    }
+  }
+}));
+
 // SPA fallback: serve index.html for all non-API routes
 app.get('{*path}', (req, res) => {
   if (req.path.startsWith('/api/')) {
