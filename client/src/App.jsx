@@ -12,6 +12,7 @@ import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import InstallPrompt from './components/InstallPrompt';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/payment/cancel" element={<PaymentCancel />} />
         </Routes>
       </main>
+      <InstallPrompt />
       <Footer />
     </div>
   );

@@ -9,10 +9,12 @@ const userRoutes = require('./routes/user');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const PUBLIC_URL = process.env.PUBLIC_URL || 'http://localhost:3000';
 
 // ─── Middleware ──────────────────────────────────────────────
+app.set('trust proxy', 1); // Trust first proxy (nginx, Cloudflare, etc.)
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: process.env.NODE_ENV === 'production' ? true : (process.env.FRONTEND_URL || 'http://localhost:5173'),
   credentials: true
 }));
 app.use(express.json());
@@ -28,6 +30,25 @@ app.get('/api/health', (req, res) => {
     status: 'ok',
     version: '1.0.0',
     app: 'Ener-G-T-49 Wellness Platform',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// ─── App Config ─────────────────────────────────────────────
+app.get('/api/config', (req, res) => {
+  res.json({
+    app: 'Ener-G-T-49 Wellness Platform',
+    version: '1.0.0',
+    domain: req.hostname,
+    publicUrl: PUBLIC_URL,
+    environment: process.env.NODE_ENV || 'development',
+    features: {
+      tts: true,
+      audioFilePlayback: true,
+      stripeCheckout: true,
+      analytics: true,
+      pwa: true,
+    },
     timestamp: new Date().toISOString()
   });
 });
