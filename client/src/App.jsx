@@ -1,6 +1,7 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
+import { track, resetPageTracking } from './analytics';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -10,6 +11,9 @@ import ContentView from './pages/ContentView';
 import SessionPlayer from './pages/SessionPlayer';
 import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import Cookies from './pages/Cookies';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import InstallPrompt from './components/InstallPrompt';
@@ -23,6 +27,13 @@ function ProtectedRoute({ children }) {
 
 export default function App() {
   const { user, loading } = useAuth();
+  const location = useLocation();
+
+  // Track page views on navigation
+  React.useEffect(() => {
+    resetPageTracking();
+    track('page_view', { page: location.pathname });
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -38,6 +49,9 @@ export default function App() {
           <Route path="/play/:id" element={<ProtectedRoute><SessionPlayer /></ProtectedRoute>} />
           <Route path="/payment/success" element={<PaymentSuccess />} />
           <Route path="/payment/cancel" element={<PaymentCancel />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/cookies" element={<Cookies />} />
         </Routes>
       </main>
       <InstallPrompt />

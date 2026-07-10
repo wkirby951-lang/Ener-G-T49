@@ -6,6 +6,8 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const contentRoutes = require('./routes/content');
 const userRoutes = require('./routes/user');
+const newsletterRoutes = require('./routes/newsletter');
+const analyticsRoutes = require('./routes/analytics');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -23,6 +25,8 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/content', contentRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // ─── Health Check ───────────────────────────────────────────
 app.get('/api/health', (req, res) => {

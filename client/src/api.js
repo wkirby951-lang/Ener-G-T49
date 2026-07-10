@@ -27,6 +27,9 @@ async function request(endpoint, options = {}) {
 }
 
 export const api = {
+  // General
+  post: (endpoint, body) => request(endpoint, { method: 'POST', body: JSON.stringify(body) }),
+
   // Auth
   signup: (body) => request('/api/auth/signup', { method: 'POST', body: JSON.stringify(body) }),
   login: (body) => request('/api/auth/login', { method: 'POST', body: JSON.stringify(body) }),

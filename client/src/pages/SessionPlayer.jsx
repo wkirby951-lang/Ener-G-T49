@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { api } from '../api';
 import useTTS from '../useTTS';
+import { track } from '../analytics';
 
 export default function SessionPlayer() {
   const { id } = useParams();
@@ -62,24 +63,29 @@ export default function SessionPlayer() {
 
   const handleStart = () => {
     setShowBilateral(item?.modalityId === 'emdr');
+    track('session_started', { contentId: id, modalityId: item?.modalityId });
     start();
   };
 
   const handlePause = () => {
     if (ttsPaused) {
+      track('session_resumed', { contentId: id });
       ttsResume();
     } else {
+      track('session_paused', { contentId: id });
       ttsPause();
     }
   };
 
   const handleStop = () => {
+    track('session_abandoned', { contentId: id, modalityId: item?.modalityId });
     ttsStop();
     clearInterval(timerRef.current);
     setShowBilateral(false);
   };
 
   const completeSession = async () => {
+    track('session_completed', { contentId: id, modalityId: item?.modalityId, durationMinutes: Math.floor(elapsed / 60) });
     ttsStop();
     clearInterval(timerRef.current);
     try {
