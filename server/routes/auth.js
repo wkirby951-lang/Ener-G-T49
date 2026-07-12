@@ -3,8 +3,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { authenticateToken } = require('../middleware/auth');
+const { sendEmail, getWelcomeHtml, getPasswordResetHtml } = require('../email');
 
 const router = express.Router();
+const PUBLIC_URL = process.env.PUBLIC_URL || 'http://localhost:3000';
 
 /**
  * Helper: execute team-db SQL and parse JSON response
@@ -99,6 +101,17 @@ router.post('/signup', async (req, res) => {
         trialEnd: trialEndStr
       }
     });
+
+    // Send welcome email (fire-and-forget, non-blocking)
+    sendEmail({
+      to: safeEmail,
+      subject: 'Welcome to Ener-G-T-49 — Your 30-Day Trial Awaits',
+      html: getWelcomeHtml({ name: safeName || safeEmail, ageSegment: safeAgeSegment }),
+    }).then((result) => {
+      if (result.success) {
+        dbExec(`INSERT INTO email_logs (id, user_id, email_type, sent_at, status) VALUES ('email_${Date.now()}', '${userId}', 'welcome', datetime('now'), 'sent')`);
+      }
+    }).catch(() => {});
   } catch (err) {
     console.error('Signup error:', err);
     res.status(500).json({ error: 'Server error during signup.' });
@@ -216,13 +229,21 @@ router.post('/forgot-password', async (req, res) => {
       return res.json({ message: 'If an account with that email exists, a password reset link has been sent.' });
     }
 
-    // In production: send email with reset token
-    // For now, return a simulated reset token
     const resetToken = jwt.sign(
       { id: users[0].id, purpose: 'password-reset' },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
+
+    // Send password reset email (fire-and-forget)
+    sendEmail({
+      to: email,
+      subject: 'Reset Your Ener-G-T-49 Password',
+      html: getPasswordResetHtml({
+        name: email,
+        resetLink: `${PUBLIC_URL || req.protocol + '://' + req.hostname}/reset-password?token=${resetToken}`,
+      }),
+    }).catch(() => {});
 
     res.json({
       message: 'If an account with that email exists, a password reset link has been sent.',

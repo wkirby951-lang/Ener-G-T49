@@ -8,6 +8,7 @@ const contentRoutes = require('./routes/content');
 const userRoutes = require('./routes/user');
 const newsletterRoutes = require('./routes/newsletter');
 const analyticsRoutes = require('./routes/analytics');
+const emailRoutes = require('./routes/email');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -27,6 +28,7 @@ app.use('/api/content', contentRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/email', emailRoutes);
 
 // ─── Health Check ───────────────────────────────────────────
 app.get('/api/health', (req, res) => {

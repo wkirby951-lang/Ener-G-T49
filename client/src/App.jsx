@@ -14,6 +14,8 @@ import PaymentCancel from './pages/PaymentCancel';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Cookies from './pages/Cookies';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import InstallPrompt from './components/InstallPrompt';
@@ -49,6 +51,8 @@ export default function App() {
           <Route path="/play/:id" element={<ProtectedRoute><SessionPlayer /></ProtectedRoute>} />
           <Route path="/payment/success" element={<PaymentSuccess />} />
           <Route path="/payment/cancel" element={<PaymentCancel />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/cookies" element={<Cookies />} />
